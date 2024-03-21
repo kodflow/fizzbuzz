@@ -1,0 +1,20 @@
+version: '3'
+
+silent: true
+
+tasks:
+  default:
+    cmds:
+      - task -l
+
+  build:terraform:
+    dir: deploy
+    desc: Appliquer la configuration Terraform
+    cmds:
+      - terraform init
+      - terraform apply -auto-approve
+
+  build:binaries:
+    desc: Construire les binaires Go
+    cmds:
+      - CGO_ENABLED=0 go build -trimpath -buildvcs=false -tags netgo -ldflags '-extldflags "-static"' -o .build/ ./... 
