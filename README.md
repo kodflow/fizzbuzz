@@ -1,2 +1,11 @@
-# fizzbuzz
+# fizzbuzz [![Reference](https://pkg.go.dev/badge/github.com/kodflow/fizzbuzz.svg)](https://pkg.go.dev/github.com/kodflow/fizzbuzz) [![License](https://img.shields.io:/github/license/kodflow/fizzbuzz)](https://github.com/kodflow/fizzbuzz/blob/main/LICENCE) [![Latest Stable Version](https://img.shields.io/github/v/tag/kodflow/fizzbuzz?label=version)](https://github.com/kodflow/fizzbuzz/releases/latest) [![CI](https://img.shields.io/github/actions/workflow/status/kodflow/fizzbuzz/ci.yml?label=CI)](https://github.com/kodflow/fizzbuzz/actions/workflows/ci.yml) [![CD](https://img.shields.io/github/actions/workflow/status/kodflow/fizzbuzz/cd.yml?label=CD)](https://github.com/kodflow/fizzbuzz/actions/workflows/cd.yml)
+
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=coverage)](https://sonarcloud.io/project/activity?id=kodflow_fizzbuzz&graph=custom&custom_metrics=coverage)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=reliability_rating)](https://sonarcloud.io/project/issues?impactSoftwareQualities=RELIABILITY&resolved=false&id=kodflow_fizzbuzz)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=security_rating)](https://sonarcloud.io/project/issues?impactSoftwareQualities=SECURITY&resolved=false&id=kodflow_fizzbuzz)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=sqale_rating)](https://sonarcloud.io/project/issues?impactSoftwareQualities=MAINTAINABILITY&resolved=false&id=kodflow_fizzbuzz)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=code_smells)](https://sonarcloud.io/project/issues?resolved=false&types=CODE_SMELL&id=kodflow_fizzbuzz)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=bugs)](https://sonarcloud.io/project/issues?resolved=false&types=BUG&id=kodflow_fizzbuzz)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=vulnerabilities)](https://sonarcloud.io/project/issues?resolved=false&types=VULNERABILITY&id=kodflow_fizzbuzz)
+
 Fizzbuzz LBC
