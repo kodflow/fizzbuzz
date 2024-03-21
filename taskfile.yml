@@ -1,0 +1,19 @@
+version: '3'
+
+silent: true
+
+tasks:
+  default:
+    cmds:
+      - task -l
+
+  test:
+    desc: Lancer les tests Go avec gotestsum
+    cmds:
+      - gotestsum -f github-actions -- -v $(go list ./... | grep -vE "vendor") -coverprofile=coverage.out -covermode=atomic
+
+  run:binary:
+    desc: Construire les binaires Go
+    cmds:
+      - CGO_ENABLED=0 go build -trimpath -buildvcs=false -tags netgo -ldflags '-extldflags "-static"' -o .build/ ./... 
+      - .build/$(basename $(pwd))
