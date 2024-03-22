@@ -179,6 +179,8 @@ jobs:
           context: .
           platforms: linux/arm64, linux/amd64
           push: true
+          build-args: |
+            BINARY_VERSION=${{ needs.binaries.outputs.version }}
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest,${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ needs.binaries.outputs.version }}
 
       - name: Check vulnerabilities
