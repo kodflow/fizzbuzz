@@ -11,7 +11,7 @@ ARG TARGETARCH
 ENV TARGETARCH=$TARGETARCH
 
 WORKDIR /var/run
-ADD https://github.com/kodflow/fizzbuzz/releases/download/$BINARY_VERSION/fizzbuzz-$TARGETARCH /api/service
+ADD https://github.com/kodflow/fizzbuzz/releases/download/$BINARY_VERSION/fizzbuzz-$TARGETARCH /var/run/fizzbuzz
 HEALTHCHECK --interval=1m --timeout=30s --retries=3 CMD curl --fail http://localhost/v1/status/healthcheck || exit 1
 EXPOSE 80 443
 
