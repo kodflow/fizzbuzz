@@ -95,7 +95,7 @@ func main() {
 		panic(err)
 	}
 
-	generatedPath := path.Join(wd, "api", "internal", "api", "api.gen.go")
+	generatedPath := path.Join(wd, "api/internal/api/api.gen.go")
 
 	os.RemoveAll(generatedPath)
 	file, err := os.Create(generatedPath)
