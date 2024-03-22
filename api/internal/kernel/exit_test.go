@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kodmain/fizzbuzz/api/internal/kernel"
+	"github.com/kodflow/fizzbuzz/api/internal/kernel"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )

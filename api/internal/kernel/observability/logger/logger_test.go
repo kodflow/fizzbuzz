@@ -6,9 +6,9 @@ import (
 	"io"
 	"testing"
 
-	"github.com/kodmain/fizzbuzz/api/config"
-	"github.com/kodmain/fizzbuzz/api/internal/kernel/observability/logger"
-	"github.com/kodmain/fizzbuzz/api/internal/kernel/observability/logger/levels"
+	"github.com/kodflow/fizzbuzz/api/config"
+	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger"
+	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger/levels"
 	"github.com/stretchr/testify/assert"
 )
 

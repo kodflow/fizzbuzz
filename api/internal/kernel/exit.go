@@ -6,7 +6,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/kodmain/fizzbuzz/api/internal/kernel/observability/logger"
+	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger"
 )
 
 type Exiter interface {
