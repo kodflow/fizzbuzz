@@ -55,64 +55,92 @@ func GetGitRoot() (string, error) {
 	return strings.TrimSpace(string(output)), nil
 }
 
-func main() {
-
-	wd, err := GetGitRoot()
+func panicOrNotPanic(err error) {
 	if err != nil {
 		panic(err)
 	}
+}
 
+func getIds(wd string) []string {
 	var ids []string
-	var re *regexp.Regexp = regexp.MustCompile(`// @Id\s+([^\s]+)`)
+	re := regexp.MustCompile(`// @Id\s+([^=>\n]+(?:\s*=>\s*[^=>\n]+)*)`)
 
-	err = filepath.Walk(wd, func(path string, info os.FileInfo, err error) error {
+	err := filepath.Walk(wd, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
-
-		if info.IsDir() || strings.Contains(path, "vendor") || !strings.HasSuffix(path, ".go") {
-			return nil
-		}
-
-		file, err := os.Open(path)
-		if err != nil {
-			return err
-		}
-		defer file.Close()
-
-		scanner := bufio.NewScanner(file)
-		for scanner.Scan() {
-			matches := re.FindStringSubmatch(scanner.Text())
-			if len(matches) > 1 {
-				ids = append(ids, matches[1])
+		if shouldScanFile(path, info) {
+			fileIds, err := extractIdsFromFilePath(path, re)
+			if err != nil {
+				return err
 			}
+			ids = append(ids, fileIds...)
 		}
-
 		return nil
 	})
 
+	panicOrNotPanic(err)
+
+	return ids
+}
+
+func shouldScanFile(path string, info os.FileInfo) bool {
+	return !info.IsDir() && !strings.Contains(path, "vendor") && strings.HasSuffix(path, ".go")
+}
+
+func extractIdsFromFilePath(path string, re *regexp.Regexp) ([]string, error) {
+	file, err := os.Open(path)
 	if err != nil {
-		panic(err)
+		return nil, err
+	}
+	defer file.Close()
+
+	var ids []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		matches := re.FindStringSubmatch(scanner.Text())
+		if len(matches) > 1 {
+			for _, match := range matches[1:] {
+				for _, split := range strings.Split(match, "=>") {
+					ids = append(ids, strings.TrimSpace(split))
+				}
+			}
+		}
 	}
 
-	generatedPath := path.Join(wd, "api/internal/api/api.gen.go")
+	return ids, nil
+}
 
-	os.RemoveAll(generatedPath)
-	file, err := os.Create(generatedPath)
-	if err != nil {
-		panic(err)
-	}
-
-	file.WriteString(header)
-	for _, id := range ids {
-		file.WriteString(fmt.Sprintf("\"%s\": %s,\n", id, id))
-	}
-	file.WriteString(footer)
-
+func main() {
 	goimportsPath, err := exec.LookPath("goimports")
 	if err != nil {
 		panic("goimports not found. Please install it using 'go install golang.org/x/tools/cmd/goimports@latest'")
 	}
+
+	wd, err := GetGitRoot()
+	panicOrNotPanic(err)
+
+	generatedPath := path.Join(wd, "api/internal/api/api.gen.go")
+
+	err = os.RemoveAll(generatedPath)
+	panicOrNotPanic(err)
+	file, err := os.Create(generatedPath)
+	panicOrNotPanic(err)
+	_, err = file.WriteString(header)
+	panicOrNotPanic(err)
+
+	uniqueIds := make(map[string]struct{})
+	for _, id := range getIds(wd) {
+		uniqueIds[id] = struct{}{}
+	}
+
+	for id := range uniqueIds {
+		_, err = file.WriteString(fmt.Sprintf("\"%s\": %s,\n", id, id))
+		panicOrNotPanic(err)
+	}
+
+	_, err = file.WriteString(footer)
+	panicOrNotPanic(err)
 
 	cmd := exec.Command(goimportsPath, "-w", generatedPath)
 	if err := cmd.Run(); err != nil {
