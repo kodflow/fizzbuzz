@@ -8,8 +8,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/swagger"
 	"github.com/kodflow/fizzbuzz/api/config"
+	"github.com/kodflow/fizzbuzz/api/internal/docs/generated"
+	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger"
 	"github.com/kodflow/fizzbuzz/api/internal/server/certs"
-	"github.com/swaggo/swag/example/basic/docs"
 )
 
 var servers map[string]*Server = make(map[string]*Server)
@@ -45,7 +46,7 @@ func Create(cfgs ...fiber.Config) *Server {
 		app:   fiber.New(cfg),
 		certs: certs.TLSConfigFor(config.HOSTNAME),
 	}
-
+	server.app.Use(log)                // register middleware logger
 	server.app.Use(setGoToDoc)         // register middleware setGoToDoc
 	server.app.Use(setSecurityHeaders) // register middleware setSecurityHeaders
 	server.app.Get("/docs/*", swagger.New(swagger.Config{
@@ -58,6 +59,11 @@ func Create(cfgs ...fiber.Config) *Server {
 	servers[cfg.AppName] = server
 
 	return server
+}
+
+func log(c *fiber.Ctx) error {
+	logger.Messagef("%v %v", c.Method(), c.Path())
+	return c.Next()
 }
 
 // setGoToDoc is a middleware that redirect to /docs url path is like /
@@ -80,7 +86,7 @@ func setSecurityHeaders(c *fiber.Ctx) error {
 	c.Set("Access-Control-Allow-Headers", "*")
 	c.Set("Access-Control-Allow-Credentials", "true")
 
-	docs.SwaggerInfo.Host = c.Hostname()
+	generated.SwaggerInfo.Host = c.Hostname()
 
 	return c.Next()
 }
