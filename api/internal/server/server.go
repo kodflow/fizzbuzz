@@ -3,7 +3,7 @@ package server
 
 import (
 	"crypto/tls"
-	"fmt"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/kodflow/fizzbuzz/api/internal/api"
@@ -35,15 +35,30 @@ func (server *Server) Register(handlers map[string]fiber.Handler) {
 	for url, pathItem := range api.Mapping.Paths {
 		for _, method := range methods {
 			if operationID, exist := getOperationID(pathItem, method); exist {
-				if handler, exists := handlers[operationID]; exists {
-					server.app.Add(method, url, handler)
-					fmt.Println("Add handler", operationID, method, url)
+				handlersToRegister := getHandlers(operationID, handlers)
+				if len(handlersToRegister) > 0 {
+					server.app.Get(url, handlersToRegister...)
+					logger.Infof("Register %v %v with %v", method, url, operationID)
 				} else {
-					fmt.Println("Handler not found", operationID)
+					logger.Warnf("Handler not found %v", operationID)
 				}
 			}
 		}
 	}
+}
+
+func getHandlers(operationID string, handlers map[string]fiber.Handler) []fiber.Handler {
+	var handlersToRegister []fiber.Handler
+	var operationIDs = strings.Split(operationID, "=>")
+	for key, handler := range operationIDs {
+		handler = strings.TrimSpace(handler)
+		if h, exist := handlers[handler]; exist {
+			handlersToRegister = append(handlersToRegister, h)
+		} else {
+			logger.Warnf("Handler not found %v %v", key, handler)
+		}
+	}
+	return handlersToRegister
 }
 
 func getOperationID(pathItem *docs.PathItem, method string) (string, bool) {
