@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/kodflow/fizzbuzz/api/internal/api/metrics"
 	"github.com/kodflow/fizzbuzz/api/internal/api/status"
 	"github.com/kodflow/fizzbuzz/api/internal/docs"
 	"github.com/swaggo/swag"
@@ -18,6 +19,8 @@ func init() {
 // API represents a collection of HTTP endpoints grouped by namespace and version.
 var (
 	Endpoints map[string]fiber.Handler = map[string]func(*fiber.Ctx) error{
+		"metrics.Statistics": metrics.Statistics,
+		"metrics.Counter":    metrics.Counter,
 		"status.HealthCheck": status.HealthCheck,
 		"status.IP":          status.IP,
 	}

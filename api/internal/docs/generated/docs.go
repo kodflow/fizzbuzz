@@ -33,7 +33,10 @@ const docTemplate = `{
                     "200": {
                         "description": "Statistics of the most frequent request",
                         "schema": {
-                            "$ref": "#/definitions/entities.Metrics"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entities.Metric"
+                            }
                         }
                     },
                     "404": {
@@ -89,7 +92,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "entities.Metrics": {
+        "entities.Metric": {
             "type": "object",
             "properties": {
                 "count": {
