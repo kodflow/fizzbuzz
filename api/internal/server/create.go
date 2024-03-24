@@ -2,9 +2,6 @@
 package server
 
 import (
-	"fmt"
-	"os"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/swagger"
 	"github.com/kodflow/fizzbuzz/api/config"
@@ -24,11 +21,6 @@ func getConfig(cfgs ...fiber.Config) fiber.Config {
 		AppName:               config.APP_NAME,
 		DisableStartupMessage: true,  // Disable Prefork to prevent bug in container and because SO_REUSEPORT can give false metrics in prometheus, maybe in the future we can use REDIS to store metrics
 		Prefork:               false, // Disable multithreading
-	}
-
-	if os.Getppid() <= 1 {
-		fmt.Println("WARNING: fiber in downgrade mode please use docker run --pid=host")
-		cfg.Prefork = false // Disable to prevent bug in container
 	}
 
 	return cfg
