@@ -14,7 +14,7 @@ tasks:
 
   run:bin:
     deps: [build:bin]
-    desc: Lancer l'application Go
+    desc: Lancer l'application Go sans Docker
     cmds:
       - .build/$(basename $(pwd))
 
@@ -36,8 +36,16 @@ tasks:
   deploy:local:
     deps: [build:docker:local]
     dir: deploy/local
-    desc: Déployer l'application en local
+    desc: Déployer l'application en local avec la release sur la machine
     cmds:
       - terraform init -upgrade
       - terraform apply -auto-approve
-    
+  
+  deploy:local:release:
+    dir: deploy/local
+    desc: Déployer l'application en local avec la release sur github
+    cmds:
+      - docker rm $(docker ps -aq) -f || true
+      - docker system prune -af --volumes
+      - terraform init -upgrade
+      - terraform apply -auto-approve
