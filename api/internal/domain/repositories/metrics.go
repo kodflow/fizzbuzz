@@ -2,33 +2,25 @@ package repositories
 
 import "github.com/kodflow/fizzbuzz/api/internal/domain/entities"
 
-// MetricsRepository is an interface defining the operations required for managing metrics data.
-// It provides an abstraction over the data layer for working with request metrics.
+// MetricsRepository defines the interface for interacting with metrics storage.
 type MetricsRepository interface {
-	// IncrementRequestCount increments the count for a specific request method and path.
-	// This method is intended to track the number of occurrences of each unique request.
-	//
+	// IncrementRequestCount increments the count of requests for a given method and path.
 	// Parameters:
 	// - method: string - The HTTP method of the request (e.g., GET, POST).
 	// - path: string - The path of the request.
-	//
 	// Returns:
-	// - error: An error if the increment operation fails, otherwise nil.
+	// - error: possible error encountered while incrementing the request count.
 	IncrementRequestCount(method, path string) error
 
-	// GetMostFrequentRequest retrieves the request metrics for the most frequently accessed endpoint.
-	// This method is used to identify which request has the highest count.
-	//
+	// GetMostFrequentRequest retrieves the metric for the most frequently made request.
 	// Returns:
-	// - *entities.Metrics: The metrics data of the most frequent request.
-	// - error: An error if the retrieval fails or if no data is available, otherwise nil.
-	GetMostFrequentRequest() (*entities.Metrics, error)
+	// - *entities.Metric: The metric of the most frequent request, nil if not available.
+	// - error: possible error encountered while retrieving the most frequent request.
+	GetMostFrequentRequest() (*entities.Metric, error)
 
-	// GetAllRequestStats retrieves the metrics data for all requests.
-	// This method returns a list of metrics for each unique request.
-	//
+	// GetAllRequestStats retrieves statistics for all tracked requests.
 	// Returns:
-	// - []*entities.Metrics: A slice of metrics data for all requests.
-	// - error: An error if the retrieval fails or if no data is available, otherwise nil.
-	GetAllRequestStats() ([]*entities.Metrics, error)
+	// - entities.Metrics: A collection of metrics for all requests.
+	// - error: possible error encountered while retrieving the request statistics.
+	GetAllRequestStats() (entities.Metrics, error)
 }

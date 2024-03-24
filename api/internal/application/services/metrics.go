@@ -44,12 +44,18 @@ func (s *MetricsService) IncrementRequest(method, path string) error {
 // It delegates to the MetricsRepository to fetch this data and returns it to the caller.
 //
 // Returns:
-// - *entities.Metrics: The metrics data of the most frequent request.
+// - *entities.Metric: The metrics data of the most frequent request.
 // - error: An error if the retrieval fails, otherwise nil.
-func (s *MetricsService) GetMostFrequentRequest() (*entities.Metrics, error) {
+func (s *MetricsService) GetMostFrequentRequest() (*entities.Metric, error) {
 	return s.repo.GetMostFrequentRequest()
 }
 
-func (s *MetricsService) GetAllRequestStats() ([]*entities.Metrics, error) {
+// GetAllRequestStats retrieves the statistics for all tracked requests.
+// It uses the MetricsRepository to fetch this data and returns it to the caller.
+//
+// Returns:
+// - entities.Metrics: A collection of metrics for all requests.
+// - error: An error if the retrieval fails, otherwise nil.
+func (s *MetricsService) GetAllRequestStats() (entities.Metrics, error) {
 	return s.repo.GetAllRequestStats()
 }

@@ -1,13 +1,10 @@
 package metrics
 
 import (
-	"fmt"
-	"strings"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/kodflow/fizzbuzz/api/internal/application/services"
 	"github.com/kodflow/fizzbuzz/api/internal/architecture/persistence"
-	"github.com/kodflow/fizzbuzz/api/internal/domain/entities"
+	"github.com/kodflow/fizzbuzz/api/internal/architecture/serializers/prom"
 	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger"
 )
 
@@ -24,46 +21,45 @@ var service = services.NewMetricsService(repository)
 // @Router       /metrics/statistics [get]
 // @Id           metrics.Statistics
 func Statistics(c *fiber.Ctx) error {
-	allStats, err := service.GetAllRequestStats()
+	allHits, err := service.GetAllRequestStats()
 	if err != nil {
 		logger.Error(err)
 		return sendPrometheusError(c)
 	}
 
-	c.Set(fiber.HeaderContentType, fiber.MIMETextPlainCharsetUTF8)
-	var prometheusFormat strings.Builder
-
-	prometheusFormat.WriteString("# HELP request_count Total number of requests for each request path.\n")
-	prometheusFormat.WriteString("# TYPE request_count counter\n")
-
-	var maxHitStats *entities.Metrics
-	for _, stats := range allStats {
-		prometheusFormat.WriteString(fmt.Sprintf("request_count{method=\"%s\", path=\"%s\"} %d\n",
-			stats.Method, stats.Path, stats.Count))
-		if maxHitStats == nil || stats.Count > maxHitStats.Count {
-			maxHitStats = stats
-		}
+	maxHits, err := service.GetMostFrequentRequest()
+	if err != nil {
+		logger.Error(err)
+		return sendPrometheusError(c)
 	}
 
-	// Ajouter la métrique request_max_hit
-	if maxHitStats != nil {
-		prometheusFormat.WriteString("# HELP request_max_hit Details of the request with the most hits.\n")
-		prometheusFormat.WriteString("# TYPE request_max_hit counter\n")
-		prometheusFormat.WriteString(fmt.Sprintf("request_max_hit{method=\"%s\", path=\"%s\"} %d\n",
-			maxHitStats.Method, maxHitStats.Path, maxHitStats.Count))
+	hits, err := prom.NewMetricMeta("request_count", "Total number of requests for each request path.", "counter", allHits)
+	if err != nil {
+		logger.Error(err)
+		return sendPrometheusError(c)
 	}
 
-	return c.SendString(prometheusFormat.String())
+	max, err := prom.NewMetricMeta("request_max_hit", "Details of the request with the most hits.", "counter", maxHits)
+	if err != nil {
+		logger.Error(err)
+		return sendPrometheusError(c)
+	}
+
+	promBytes, err := prom.Marshal(hits, max)
+	if err != nil {
+		logger.Error(err)
+		return sendPrometheusError(c)
+	}
+
+	return c.SendString(string(promBytes))
 }
 
 func sendPrometheusError(c *fiber.Ctx) error {
-	errorMetric := "# HELP request_error Indicates an error occurred while fetching statistics.\n" +
-		"# TYPE request_error counter\n" +
-		"request_error 1\n"
-	return c.SendString(errorMetric)
+	data := prom.NewSimpleMeta("request_error", "Indicates an error occurred while fetching statistics.", "counter", 1)
+	promBytes, _ := prom.Marshal(data)
+	return c.SendString(string(promBytes))
 }
 
-// Internal middleware to increment request counter
 func Counter(c *fiber.Ctx) error {
 	service.IncrementRequest(c.Method(), c.Path())
 	return c.Next()
