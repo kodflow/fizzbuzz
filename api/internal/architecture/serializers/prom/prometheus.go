@@ -43,8 +43,8 @@ type MetricData struct {
 	Value  any               // Value is the actual data of the metric.
 }
 
-// MetricLabels represents the data for a metric, consisting of labels and a value.
-type MetricLabels struct {
+// MetricLabel represents the data for a metric, consisting of labels and a value.
+type MetricLabel struct {
 	Key   string // Key is the label key.
 	Value string // Value is the label value.
 }
@@ -90,7 +90,7 @@ func Marshal(metas ...*MetricMeta) ([]byte, error) {
 // - labels: map[string]string - Labels for the metric.
 // Returns:
 // - *MetricMeta: A pointer to the newly created MetricMeta.
-func NewSimpleMeta(name, help, metricType string, value any, labels ...MetricLabels) *MetricMeta {
+func NewSimpleMeta(name, help, metricType string, value any, labels ...MetricLabel) *MetricMeta {
 	labelMap := make(map[string]string, len(labels))
 	for _, label := range labels {
 		labelMap[label.Key] = label.Value

@@ -12,3 +12,13 @@ func TestNewMetrics(t *testing.T) {
 	assert.NotNil(t, metrics, "Metrics should not be nil")
 	assert.Len(t, metrics, 0)
 }
+
+func TestMetrics_MarshalProm(t *testing.T) {
+	metrics := entities.NewMetrics()
+
+	metrics = append(metrics, entities.NewMetric("GET", "/api/v1/users", 10))
+	metrics = append(metrics, entities.NewMetric("POST", "/api/v1/users", 20))
+
+	promMetrics := metrics.MarshalProm()
+	assert.Len(t, promMetrics, 2)
+}
