@@ -1,5 +1,5 @@
 definitions:
-  entities.Metrics:
+  entities.Metric:
     properties:
       count:
         type: integer
@@ -26,7 +26,9 @@ paths:
         "200":
           description: Statistics of the most frequent request
           schema:
-            $ref: '#/definitions/entities.Metrics'
+            items:
+              $ref: '#/definitions/entities.Metric'
+            type: array
         "404":
           description: No data available
           schema:
