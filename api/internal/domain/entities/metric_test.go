@@ -20,7 +20,7 @@ func TestNewMetric(t *testing.T) {
 	assert.Equal(t, count, metrics.Count, "Count should match")
 }
 
-func TestMetric_MarshalProm(t *testing.T) {
+func TestMetricMarshalProm(t *testing.T) {
 	method := "GET"
 	path := "/api/v1/users"
 	count := 10
