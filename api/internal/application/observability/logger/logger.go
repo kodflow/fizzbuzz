@@ -8,7 +8,7 @@ import (
 	"runtime/debug"
 
 	"github.com/Code-Hex/dd"
-	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger/levels"
+	"github.com/kodflow/fizzbuzz/api/internal/application/observability/logger/levels"
 )
 
 // Constant for formatting log path with color.
@@ -95,7 +95,7 @@ func (l *Logger) Write(level levels.TYPE, messages ...any) {
 func (l *Logger) Panic(err error) bool {
 	if err != nil {
 		l.Write(levels.PANIC, err, string(debug.Stack()))
-		return true
+		os.Exit(1)
 	}
 
 	return false

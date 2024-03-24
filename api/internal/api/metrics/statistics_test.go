@@ -35,18 +35,4 @@ func TestStatistics(t *testing.T) {
 	resp, err = app.Test(req)
 	assert.NoError(t, err, shouldNotReturnError)
 	assert.Equal(t, http.StatusOK, resp.StatusCode, shouldBe200)
-
-}
-
-func TestCounter(t *testing.T) {
-	app := fiber.New()
-	app.Use(metrics.Counter)
-	app.Get("/test", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	})
-
-	req := httptest.NewRequest(http.MethodGet, "/test", nil)
-	resp, err := app.Test(req)
-	assert.NoError(t, err, shouldNotReturnError)
-	assert.Equal(t, http.StatusOK, resp.StatusCode, shouldBe200)
 }

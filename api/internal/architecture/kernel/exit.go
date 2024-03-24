@@ -6,7 +6,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger"
+	"github.com/kodflow/fizzbuzz/api/internal/application/observability/logger"
 )
 
 type Exiter interface {
@@ -20,7 +20,6 @@ func (r *real) Exit(code int) {
 }
 
 var (
-	ERROR chan error     = make(chan error, 1)
 	PANIC chan error     = make(chan error, 1)
 	SIGS  chan os.Signal = make(chan os.Signal, 1)
 	PROG  Exiter         = &real{}
@@ -37,8 +36,6 @@ func Wait(exiters ...Exiter) {
 	signal.Notify(SIGS, syscall.SIGINT, syscall.SIGTERM)
 	for {
 		select {
-		case err := <-ERROR:
-			logger.Error(err)
 		case err := <-PANIC:
 			logger.Panic(err)
 			exiter.Exit(1)

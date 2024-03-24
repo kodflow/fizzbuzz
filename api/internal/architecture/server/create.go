@@ -5,9 +5,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/swagger"
 	"github.com/kodflow/fizzbuzz/api/config"
+	"github.com/kodflow/fizzbuzz/api/internal/application/observability/logger"
+	"github.com/kodflow/fizzbuzz/api/internal/architecture/server/certs"
 	"github.com/kodflow/fizzbuzz/api/internal/docs/generated"
-	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger"
-	"github.com/kodflow/fizzbuzz/api/internal/server/certs"
 )
 
 var servers map[string]*Server = make(map[string]*Server)

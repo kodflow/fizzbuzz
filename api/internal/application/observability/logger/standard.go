@@ -1,6 +1,6 @@
 package logger
 
-import "github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger/levels"
+import "github.com/kodflow/fizzbuzz/api/internal/application/observability/logger/levels"
 
 var instance *Logger = nil
 

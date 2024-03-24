@@ -6,10 +6,10 @@ package main
 
 import (
 	"github.com/kodflow/fizzbuzz/api/internal/api"
-	"github.com/kodflow/fizzbuzz/api/internal/kernel"
-	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger"
-	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger/levels"
-	"github.com/kodflow/fizzbuzz/api/internal/server"
+	"github.com/kodflow/fizzbuzz/api/internal/application/observability/logger"
+	"github.com/kodflow/fizzbuzz/api/internal/application/observability/logger/levels"
+	"github.com/kodflow/fizzbuzz/api/internal/architecture/kernel"
+	"github.com/kodflow/fizzbuzz/api/internal/architecture/server"
 	"github.com/spf13/cobra"
 )
 
