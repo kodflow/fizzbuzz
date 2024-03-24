@@ -37,7 +37,7 @@ func (server *Server) Register(handlers map[string]fiber.Handler) {
 			if operationID, exist := getOperationID(pathItem, method); exist {
 				handlersToRegister := getHandlers(operationID, handlers)
 				if len(handlersToRegister) > 0 {
-					server.app.Get(url, handlersToRegister...)
+					server.app.Add(method, url, handlersToRegister...)
 					logger.Infof("Register %v %v with %v", method, url, operationID)
 				} else {
 					logger.Warnf("Handler not found %v", operationID)

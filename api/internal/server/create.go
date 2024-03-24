@@ -22,8 +22,8 @@ func getConfig(cfgs ...fiber.Config) fiber.Config {
 
 	cfg := fiber.Config{
 		AppName:               config.APP_NAME,
-		Prefork:               true, // Multithreading
-		DisableStartupMessage: true, // Disable startup message
+		DisableStartupMessage: true,  // Disable Prefork to prevent bug in container and because SO_REUSEPORT can give false metrics in prometheus, maybe in the future we can use REDIS to store metrics
+		Prefork:               false, // Disable multithreading
 	}
 
 	if os.Getppid() <= 1 {
