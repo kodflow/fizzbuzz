@@ -41,7 +41,7 @@ tasks:
       - terraform init -upgrade
       - terraform apply -auto-approve
   
-  deploy:local:release:
+  deploy:release:
     dir: deploy/local
     desc: Déployer l'application en local avec la release sur github
     cmds:
