@@ -92,7 +92,7 @@ const docTemplate = `{
                     "*/*"
                 ],
                 "produces": [
-                    "application/json"
+                    "text/plain"
                 ],
                 "tags": [
                     "Metrics"
@@ -103,10 +103,7 @@ const docTemplate = `{
                     "200": {
                         "description": "Statistics of the most frequent request",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/entities.Metric"
-                            }
+                            "type": "string"
                         }
                     },
                     "404": {
@@ -156,26 +153,6 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK"
-                    }
-                }
-            }
-        }
-    },
-    "definitions": {
-        "entities.Metric": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "method": {
-                    "type": "string"
-                },
-                "path": {
-                    "description": "The path is stored as a byte slice to avoid memory leaks.",
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
                     }
                 }
             }

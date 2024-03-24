@@ -16,8 +16,8 @@ var service = services.NewMetricsService(repository)
 // @Description  Retrieves data for the most frequent request.
 // @Tags         Metrics
 // @Accept       */*
-// @Produce      application/json
-// @Success      200  {object}  entities.Metrics  "Statistics of the most frequent request"
+// @Produce      text/plain
+// @Success      200  {string}  entities.Metrics  "Statistics of the most frequent request"
 // @Failure      404  {string}  nil           	  "No data available"
 // @Router       /metrics/statistics [get]
 // @Id           metrics.Statistics
