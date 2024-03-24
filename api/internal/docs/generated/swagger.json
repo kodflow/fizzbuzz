@@ -1,0 +1,100 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/metrics/statistics": {
+            "get": {
+                "description": "Retrieves data for the most frequent request.",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Metrics"
+                ],
+                "summary": "Show request metrics.",
+                "operationId": "metrics.Statistics",
+                "responses": {
+                    "200": {
+                        "description": "Statistics of the most frequent request",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Metrics"
+                        }
+                    },
+                    "404": {
+                        "description": "No data available",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/status/healthcheck": {
+            "get": {
+                "description": "get the status of server.",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Status"
+                ],
+                "summary": "Show the status of server.",
+                "operationId": "metrics.Counter =\u003e status.HealthCheck",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/status/ip": {
+            "get": {
+                "description": "get the ip of user.",
+                "consumes": [
+                    "*/*"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Status"
+                ],
+                "summary": "Show the ip of user.",
+                "operationId": "metrics.Counter =\u003e status.IP",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entities.Metrics": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "path": {
+                    "description": "The path is stored as a byte slice to avoid memory leaks.",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        }
+    }
+}
