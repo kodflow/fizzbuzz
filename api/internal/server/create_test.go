@@ -1,6 +1,7 @@
 package server
 
 import (
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -10,21 +11,46 @@ import (
 )
 
 func TestCreateServer(t *testing.T) {
-	srv := Create()
-	srv = Create()
+	srvA := Create()
+	assert.NotNil(t, srvA)
+	srvB := Create()
+	assert.NotNil(t, srvB)
 
-	assert.NotNil(t, srv)
+	assert.Equal(t, srvA, srvB)
 }
 
 func TestSetGoToDoc(t *testing.T) {
 	app := fiber.New()
 	app.Use(setGoToDoc)
+	app.Get("/hello", func(c *fiber.Ctx) error {
+		return c.SendString("World!")
+	})
 
 	req := httptest.NewRequest(http.MethodGet, "/index.html", nil)
 	resp, err := app.Test(req)
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusMovedPermanently, resp.StatusCode)
 	assert.Equal(t, "/docs", resp.Header.Get("Location"))
+
+	req = httptest.NewRequest(http.MethodGet, "/hello", nil)
+	resp, err = app.Test(req)
+	assert.NoError(t, err)
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
+	data, err := io.ReadAll(resp.Body)
+	assert.NoError(t, err)
+	defer resp.Body.Close()
+	assert.Equal(t, "World!", string(data))
+
+}
+
+func TestLog(t *testing.T) {
+	app := fiber.New()
+	app.Use(log)
+
+	req := httptest.NewRequest(http.MethodGet, "/index.html", nil)
+	resp, err := app.Test(req)
+	assert.NoError(t, err)
+	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
 
 func TestSetSecurityHeaders(t *testing.T) {

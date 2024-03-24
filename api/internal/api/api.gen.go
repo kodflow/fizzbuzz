@@ -19,6 +19,7 @@ func init() {
 var (
 	Endpoints map[string]fiber.Handler = map[string]func(*fiber.Ctx) error{
 		"status.HealthCheck": status.HealthCheck,
+		"status.IP":          status.IP,
 	}
 	Mapping = &docs.Swagger{}
 	doc, _  = swag.ReadDoc()
