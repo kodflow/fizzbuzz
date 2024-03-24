@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/kodflow/fizzbuzz/api/internal/api/fizzbuzz"
 	"github.com/kodflow/fizzbuzz/api/internal/api/metrics"
 	"github.com/kodflow/fizzbuzz/api/internal/api/status"
 	"github.com/kodflow/fizzbuzz/api/internal/docs"
@@ -23,6 +24,7 @@ var (
 		"metrics.Counter":    metrics.Counter,
 		"status.HealthCheck": status.HealthCheck,
 		"status.IP":          status.IP,
+		"fizzbuzz.FizzBuzz":  fizzbuzz.FizzBuzz,
 	}
 	Mapping = &docs.Swagger{}
 	doc, _  = swag.ReadDoc()
