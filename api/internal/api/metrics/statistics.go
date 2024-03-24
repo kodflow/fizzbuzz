@@ -5,6 +5,7 @@ import (
 	"github.com/kodflow/fizzbuzz/api/internal/application/services"
 	"github.com/kodflow/fizzbuzz/api/internal/architecture/persistence"
 	"github.com/kodflow/fizzbuzz/api/internal/architecture/serializers/prom"
+	"github.com/kodflow/fizzbuzz/api/internal/domain/entities"
 	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger"
 )
 
@@ -21,37 +22,46 @@ var service = services.NewMetricsService(repository)
 // @Router       /metrics/statistics [get]
 // @Id           metrics.Statistics
 func Statistics(c *fiber.Ctx) error {
-	allHits, err := service.GetAllRequestStats()
-	if err != nil {
-		logger.Error(err)
-		return sendPrometheusError(c)
-	}
-
-	maxHits, err := service.GetMostFrequentRequest()
-	if err != nil {
-		logger.Error(err)
-		return sendPrometheusError(c)
-	}
-
-	hits, err := prom.NewMetricMeta("request_count", "Total number of requests for each request path.", "counter", allHits)
-	if err != nil {
-		logger.Error(err)
-		return sendPrometheusError(c)
-	}
-
-	max, err := prom.NewMetricMeta("request_max_hit", "Details of the request with the most hits.", "counter", maxHits)
-	if err != nil {
-		logger.Error(err)
-		return sendPrometheusError(c)
-	}
-
-	promBytes, err := prom.Marshal(hits, max)
+	promBytes, err := getPrometheusMetrics()
 	if err != nil {
 		logger.Error(err)
 		return sendPrometheusError(c)
 	}
 
 	return c.SendString(string(promBytes))
+}
+
+func getPrometheusMetrics() ([]byte, error) {
+	allHits, maxHits, err := fetchMetricsData()
+	if err != nil {
+		return nil, err
+	}
+
+	hitsMeta, err := prom.NewMetricMeta("request_count", "Total number of requests for each request path.", "counter", allHits)
+	if err != nil {
+		return nil, err
+	}
+
+	maxMeta, err := prom.NewMetricMeta("request_max_hit", "Details of the request with the most hits.", "counter", maxHits)
+	if err != nil {
+		return nil, err
+	}
+
+	return prom.Marshal(hitsMeta, maxMeta)
+}
+
+func fetchMetricsData() ([]*entities.Metrics, []*entities.Metrics, error) {
+	allHits, err := service.GetAllRequestStats()
+	if err != nil {
+		return nil, nil, err
+	}
+
+	maxHits, err := service.GetMostFrequentRequest()
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return allHits, maxHits, nil
 }
 
 func sendPrometheusError(c *fiber.Ctx) error {

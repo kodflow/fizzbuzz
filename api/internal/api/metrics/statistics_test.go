@@ -19,6 +19,17 @@ func TestStatistics(t *testing.T) {
 	assert.NoError(t, err, "Request should not return an error")
 	assert.Equal(t, http.StatusOK, resp.StatusCode, "Response status code should be 200")
 
+	app.Use(metrics.Counter)
+	req = httptest.NewRequest(http.MethodGet, "/test", nil)
+	resp, err = app.Test(req)
+	assert.NoError(t, err, "Request should not return an error")
+	assert.Equal(t, http.StatusNotFound, resp.StatusCode, "Response status code should be 200")
+
+	req = httptest.NewRequest(http.MethodGet, "/metrics/statistics", nil)
+	resp, err = app.Test(req)
+	assert.NoError(t, err, "Request should not return an error")
+	assert.Equal(t, http.StatusOK, resp.StatusCode, "Response status code should be 200")
+
 }
 
 func TestCounter(t *testing.T) {
