@@ -50,7 +50,7 @@ func getPrometheusMetrics() ([]byte, error) {
 	return prom.Marshal(hitsMeta, maxMeta)
 }
 
-func fetchMetricsData() ([]*entities.Metrics, []*entities.Metrics, error) {
+func fetchMetricsData() (entities.Metrics, *entities.Metric, error) {
 	allHits, err := service.GetAllRequestStats()
 	if err != nil {
 		return nil, nil, err
