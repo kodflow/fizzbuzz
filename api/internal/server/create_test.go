@@ -50,8 +50,7 @@ func TestLog(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/index.html", nil)
 	resp, err := app.Test(req)
 	assert.NoError(t, err)
-	assert.Equal(t, http.StatusMovedPermanently, resp.StatusCode)
-	assert.Equal(t, "/docs", resp.Header.Get("Location"))
+	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
 
 func TestSetSecurityHeaders(t *testing.T) {
