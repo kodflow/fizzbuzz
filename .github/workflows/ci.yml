@@ -157,7 +157,7 @@ jobs:
       - name: Build and Push Image
         uses: docker/build-push-action@v5
         with:
-          file: .github/ci/dockerfiles/fizzbuzz.Dockerfile
+          file: .github/ci/dockerfiles/fizzbuzz.remote.Dockerfile
           context: .
           platforms: linux/arm64, linux/amd64
           push: true
@@ -175,7 +175,7 @@ jobs:
       - name: Build and Push Image to Docker Hub
         uses: docker/build-push-action@v5
         with:
-          file: .github/ci/dockerfiles/fizzbuzz.Dockerfile
+          file: .github/ci/dockerfiles/fizzbuzz.remote.Dockerfile
           context: .
           platforms: linux/arm64, linux/amd64
           push: true
