@@ -1,0 +1,65 @@
+definitions:
+  entities.Metrics:
+    properties:
+      count:
+        type: integer
+      method:
+        type: string
+      path:
+        description: The path is stored as a byte slice to avoid memory leaks.
+        items:
+          type: integer
+        type: array
+    type: object
+info:
+  contact: {}
+paths:
+  /metrics/statistics:
+    get:
+      consumes:
+      - '*/*'
+      description: Retrieves data for the most frequent request.
+      operationId: metrics.Statistics
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Statistics of the most frequent request
+          schema:
+            $ref: '#/definitions/entities.Metrics'
+        "404":
+          description: No data available
+          schema:
+            type: string
+      summary: Show request metrics.
+      tags:
+      - Metrics
+  /status/healthcheck:
+    get:
+      consumes:
+      - '*/*'
+      description: get the status of server.
+      operationId: metrics.Counter => status.HealthCheck
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Show the status of server.
+      tags:
+      - Status
+  /status/ip:
+    get:
+      consumes:
+      - '*/*'
+      description: get the ip of user.
+      operationId: metrics.Counter => status.IP
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Show the ip of user.
+      tags:
+      - Status
+swagger: "2.0"

@@ -5,8 +5,10 @@ package main
 //go:generate go fmt ../../api/internal/api/api.gen.go
 
 import (
+	"github.com/kodflow/fizzbuzz/api/internal/api"
 	"github.com/kodflow/fizzbuzz/api/internal/kernel"
 	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger"
+	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger/levels"
 	"github.com/kodflow/fizzbuzz/api/internal/server"
 	"github.com/spf13/cobra"
 )
@@ -18,11 +20,14 @@ var Helper *cobra.Command = &cobra.Command{
 	DisableAutoGenTag:     true,
 	DisableFlagsInUseLine: true,
 	PreRun: func(cmd *cobra.Command, args []string) {
+		logger.SetLevel(levels.DEBUG)
 		logger.Info("loading configuration")
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		logger.Info("starting application")
-		server.Create().Start()
+		srv := server.Create()
+		srv.Register(api.Endpoints)
+		srv.Start()
 	},
 	PostRun: func(cmd *cobra.Command, args []string) {
 		logger.Info("waiting for application to shutdown")
