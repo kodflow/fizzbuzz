@@ -13,7 +13,7 @@ func TestNewMetrics(t *testing.T) {
 	assert.Len(t, metrics, 0)
 }
 
-func TestMetrics_MarshalProm(t *testing.T) {
+func TestMetricsMarshalProm(t *testing.T) {
 	metrics := entities.NewMetrics()
 
 	metrics = append(metrics, entities.NewMetric("GET", "/api/v1/users", 10))

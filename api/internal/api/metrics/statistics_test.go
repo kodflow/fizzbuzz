@@ -10,25 +10,31 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	url                  = "/metrics/statistics"
+	shouldNotReturnError = "Request should not return an error"
+	shouldBe200          = "Response status code should be 200"
+)
+
 func TestStatistics(t *testing.T) {
 	app := fiber.New()
-	app.Get("/metrics/statistics", metrics.Statistics)
+	app.Get(url, metrics.Statistics)
 
-	req := httptest.NewRequest(http.MethodGet, "/metrics/statistics", nil)
+	req := httptest.NewRequest(http.MethodGet, url, nil)
 	resp, err := app.Test(req)
-	assert.NoError(t, err, "Request should not return an error")
-	assert.Equal(t, http.StatusOK, resp.StatusCode, "Response status code should be 200")
+	assert.NoError(t, err, shouldNotReturnError)
+	assert.Equal(t, http.StatusOK, resp.StatusCode, shouldBe200)
 
 	app.Use(metrics.Counter)
 	req = httptest.NewRequest(http.MethodGet, "/test", nil)
 	resp, err = app.Test(req)
-	assert.NoError(t, err, "Request should not return an error")
-	assert.Equal(t, http.StatusNotFound, resp.StatusCode, "Response status code should be 200")
+	assert.NoError(t, err, shouldNotReturnError)
+	assert.Equal(t, http.StatusNotFound, resp.StatusCode, shouldBe200)
 
-	req = httptest.NewRequest(http.MethodGet, "/metrics/statistics", nil)
+	req = httptest.NewRequest(http.MethodGet, url, nil)
 	resp, err = app.Test(req)
-	assert.NoError(t, err, "Request should not return an error")
-	assert.Equal(t, http.StatusOK, resp.StatusCode, "Response status code should be 200")
+	assert.NoError(t, err, shouldNotReturnError)
+	assert.Equal(t, http.StatusOK, resp.StatusCode, shouldBe200)
 
 }
 
@@ -41,6 +47,6 @@ func TestCounter(t *testing.T) {
 
 	req := httptest.NewRequest(http.MethodGet, "/test", nil)
 	resp, err := app.Test(req)
-	assert.NoError(t, err, "Request should not return an error")
-	assert.Equal(t, http.StatusOK, resp.StatusCode, "Response status code should be 200")
+	assert.NoError(t, err, shouldNotReturnError)
+	assert.Equal(t, http.StatusOK, resp.StatusCode, shouldBe200)
 }

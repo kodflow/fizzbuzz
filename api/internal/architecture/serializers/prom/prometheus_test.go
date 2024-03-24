@@ -8,13 +8,17 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	metricTest = "This is a test metric"
+)
+
 func TestNewMetricMeta(t *testing.T) {
 	data := entities.NewMetrics()
-	meta, err := prom.NewMetricMeta("test_metric", "This is a test metric", "counter", data)
+	meta, err := prom.NewMetricMeta("test_metric", metricTest, "counter", data)
 	assert.NoError(t, err, "NewMetricMeta should not return an error")
 	assert.NotNil(t, meta, "MetricMeta should not be nil")
 	assert.Equal(t, "test_metric", meta.Name, "Name should match")
-	assert.Equal(t, "This is a test metric", meta.Help, "Help should match")
+	assert.Equal(t, metricTest, meta.Help, "Help should match")
 	assert.Equal(t, "counter", meta.Type, "Type should match")
 	assert.Len(t, meta.Value, 0, "Value length should be 0")
 }
@@ -24,7 +28,7 @@ func TestMarshal(t *testing.T) {
 	data = append(data, entities.NewMetric("GET", "/api/v1/users", 10))
 	data = append(data, entities.NewMetric("POST", "/api/v1/users", 20))
 
-	meta, err := prom.NewMetricMeta("test_metric", "This is a test metric", "counter", data)
+	meta, err := prom.NewMetricMeta("test_metric", metricTest, "counter", data)
 	assert.NoError(t, err, "NewMetricMeta should not return an error")
 	assert.NotNil(t, meta, "MetricMeta should not be nil")
 
@@ -35,7 +39,7 @@ func TestMarshal(t *testing.T) {
 
 func TestNewSimpleMeta(t *testing.T) {
 	name := "test_metric"
-	help := "This is a test metric"
+	help := metricTest
 	metricType := "counter"
 	value := 10
 	labels := []prom.MetricLabel{
