@@ -1,6 +1,7 @@
 package server
 
 import (
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -10,10 +11,12 @@ import (
 )
 
 func TestCreateServer(t *testing.T) {
-	srv := Create()
-	srv = Create()
+	srvA := Create()
+	assert.NotNil(t, srvA)
+	srvB := Create()
+	assert.NotNil(t, srvB)
 
-	assert.NotNil(t, srv)
+	assert.Equal(t, srvA, srvB)
 }
 
 func TestSetGoToDoc(t *testing.T) {
@@ -33,7 +36,10 @@ func TestSetGoToDoc(t *testing.T) {
 	resp, err = app.Test(req)
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
-	assert.Equal(t, "World!", resp.Body)
+	data, err := io.ReadAll(resp.Body)
+	assert.NoError(t, err)
+	defer resp.Body.Close()
+	assert.Equal(t, "World!", string(data))
 
 }
 
