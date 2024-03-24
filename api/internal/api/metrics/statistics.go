@@ -2,11 +2,11 @@ package metrics
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/kodflow/fizzbuzz/api/internal/application/services"
+	"github.com/kodflow/fizzbuzz/api/internal/application/observability/logger"
 	"github.com/kodflow/fizzbuzz/api/internal/architecture/persistence"
 	"github.com/kodflow/fizzbuzz/api/internal/architecture/serializers/prom"
 	"github.com/kodflow/fizzbuzz/api/internal/domain/entities"
-	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger"
+	"github.com/kodflow/fizzbuzz/api/internal/domain/services"
 )
 
 var repository = persistence.NewMetricsRepository()

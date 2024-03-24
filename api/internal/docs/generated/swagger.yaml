@@ -6,7 +6,7 @@ paths:
       consumes:
       - '*/*'
       description: Executes the FizzBuzz algorithm based on the provided parameters.
-      operationId: fizzbuzz.FizzBuzz
+      operationId: metrics.Counter => fizzbuzz.FizzBuzz
       parameters:
       - description: First integer to replace with str1
         in: path

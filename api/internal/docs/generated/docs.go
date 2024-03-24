@@ -28,7 +28,7 @@ const docTemplate = `{
                     "FizzBuzz"
                 ],
                 "summary": "Run FizzBuzz",
-                "operationId": "fizzbuzz.FizzBuzz",
+                "operationId": "metrics.Counter =\u003e fizzbuzz.FizzBuzz",
                 "parameters": [
                     {
                         "type": "integer",

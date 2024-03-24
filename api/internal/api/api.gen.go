@@ -20,11 +20,11 @@ func init() {
 // API represents a collection of HTTP endpoints grouped by namespace and version.
 var (
 	Endpoints map[string]fiber.Handler = map[string]func(*fiber.Ctx) error{
-		"metrics.Statistics": metrics.Statistics,
 		"metrics.Counter":    metrics.Counter,
+		"fizzbuzz.FizzBuzz":  fizzbuzz.FizzBuzz,
+		"metrics.Statistics": metrics.Statistics,
 		"status.HealthCheck": status.HealthCheck,
 		"status.IP":          status.IP,
-		"fizzbuzz.FizzBuzz":  fizzbuzz.FizzBuzz,
 	}
 	Mapping = &docs.Swagger{}
 	doc, _  = swag.ReadDoc()
