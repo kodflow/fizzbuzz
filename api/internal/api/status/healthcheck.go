@@ -12,7 +12,7 @@ import (
 // @Produce		application/json
 // @Success		204	{object}	nil
 // @Router		/status/healthcheck [get]
-// @Id	        status.HealthCheck
+// @Id	        metrics.Counter => status.HealthCheck
 func HealthCheck(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusNoContent).Send(nil)
 }

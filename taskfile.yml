@@ -12,15 +12,29 @@ tasks:
     cmds:
       - gotestsum -f github-actions -- -v $(go list ./... | grep -vE "vendor") -coverprofile=coverage.out -covermode=atomic
 
+  run:bin:
+    deps: [build:bin]
+    desc: Lancer l'application Go
+    cmds:
+      - .build/$(basename $(pwd))
+
   build:bin:
     desc: Construire les binaires Go
     cmds:
       - swag init -d ./api -g fizzbuzz/main.go -o ./api/internal/docs/generated
       - go generate ./...
       - CGO_ENABLED=0 go build -trimpath -buildvcs=false -tags netgo -ldflags "-s -w -extldflags '-static'" -o .build/fizzbuzz api/fizzbuzz/main.go
-      - .build/$(basename $(pwd))
-  
+
+  build:docker:local:
+    desc: Construire l'image Docker en local
+    cmds:
+      - swag init -d ./api -g fizzbuzz/main.go -o ./api/internal/docs/generated
+      - go generate ./...
+      - GOOS=linux CGO_ENABLED=0 go build -trimpath -buildvcs=false -tags netgo -ldflags "-s -w -extldflags '-static'" -o .build/fizzbuzz api/fizzbuzz/main.go
+      - docker build -t kodmain/fizzbuzz -f .github/ci/dockerfiles/fizzbuzz.local.Dockerfile .
+
   deploy:local:
+    deps: [build:docker:local]
     dir: deploy/local
     desc: Déployer l'application en local
     cmds:
