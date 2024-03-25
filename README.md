@@ -63,3 +63,6 @@ Perfect to see grafana
 ````
 task test:api
 ````
+
+## Preview
+![FizzBuzz](preview.gif)
