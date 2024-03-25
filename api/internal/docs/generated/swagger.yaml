@@ -45,7 +45,7 @@ paths:
         "400":
           description: Bad Request - invalid input parameters
           schema:
-            type: string
+            type: object
       summary: Run FizzBuzz
       tags:
       - FizzBuzz

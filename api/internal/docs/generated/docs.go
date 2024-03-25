@@ -79,7 +79,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request - invalid input parameters",
                         "schema": {
-                            "type": "string"
+                            "type": "object"
                         }
                     }
                 }
