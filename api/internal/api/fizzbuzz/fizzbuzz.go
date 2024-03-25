@@ -23,7 +23,7 @@ const max int = 100
 // @Param        str1   path string true  "String to replace multiples of int1"
 // @Param        str2   path string true  "String to replace multiples of int2"
 // @Success      200    {object}     []string "A list of strings representing the FizzBuzz sequence"
-// @Failure      400    {object}     string   "Bad Request - invalid input parameters"
+// @Failure      400    {object}     object   "Bad Request - invalid input parameters"
 // @Router       /fizzbuzz/:int1/:int2/:limit/:str1/:str2 [get]
 // @Id           metrics.Counter => fizzbuzz.FizzBuzz
 func FizzBuzz(c *fiber.Ctx) error {
@@ -64,5 +64,5 @@ func FizzBuzz(c *fiber.Ctx) error {
 	fizzBuzzService := services.NewFizzBuzzService()
 	result := fizzBuzzService.RunFizzBuzz(int1, int2, limit, str1, str2)
 
-	return c.JSON(fiber.Map{"result": result})
+	return c.JSON(result)
 }
