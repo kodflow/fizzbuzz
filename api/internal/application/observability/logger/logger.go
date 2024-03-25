@@ -8,7 +8,7 @@ import (
 	"runtime/debug"
 
 	"github.com/Code-Hex/dd"
-	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger/levels"
+	"github.com/kodflow/fizzbuzz/api/internal/application/observability/logger/levels"
 )
 
 // Constant for formatting log path with color.

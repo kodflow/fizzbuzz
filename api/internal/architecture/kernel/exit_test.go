@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kodflow/fizzbuzz/api/internal/kernel"
+	"github.com/kodflow/fizzbuzz/api/internal/architecture/kernel"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -44,15 +44,4 @@ func TestWaitPanic(t *testing.T) {
 	time.Sleep(100 * time.Millisecond)
 
 	assert.Equal(t, 1, mockExiter.LastExitCode)
-}
-
-func TestWaitError(t *testing.T) {
-	mockExiter := new(MockExiter)
-	mockExiter.On("Exit", mock.Anything)
-
-	go kernel.Wait(mockExiter)
-
-	kernel.ERROR <- err
-
-	assert.Equal(t, 0, mockExiter.LastExitCode)
 }

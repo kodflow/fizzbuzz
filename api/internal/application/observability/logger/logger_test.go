@@ -7,8 +7,8 @@ import (
 	"testing"
 
 	"github.com/kodflow/fizzbuzz/api/config"
-	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger"
-	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger/levels"
+	"github.com/kodflow/fizzbuzz/api/internal/application/observability/logger"
+	"github.com/kodflow/fizzbuzz/api/internal/application/observability/logger/levels"
 	"github.com/stretchr/testify/assert"
 )
 

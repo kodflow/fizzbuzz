@@ -1,6 +1,6 @@
 package config
 
-import "github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger/levels"
+import "github.com/kodflow/fizzbuzz/api/internal/application/observability/logger/levels"
 
 var (
 	// DEFAULT_LOG_LEVEL defines the default log level for the application.
