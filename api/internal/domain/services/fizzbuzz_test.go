@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/kodflow/fizzbuzz/api/internal/application/services"
+	"github.com/kodflow/fizzbuzz/api/internal/domain/services"
 	"github.com/stretchr/testify/assert"
 )
 
