@@ -13,6 +13,12 @@
 
 ENDPOINT="http://localhost/fizzbuzz" 
 
+THE_ONE="${ENDPOINT}/3/5/100/Fizz/Buzz"
+for i in {1..20}; do
+    # Construire l'URL
+    $(curl -s "$THE_ONE" > /dev/null)
+done
+
 for i in {1..100000}; do
     # Générer des valeurs aléatoires
     INT1=$((RANDOM % 10 + 1))
@@ -21,10 +27,13 @@ for i in {1..100000}; do
     STR1="Fizz"
     STR2="Buzz"
 
+    if ((i % 200 == 0)); then
+        $(curl -s "$THE_ONE" > /dev/null)
+    fi
+
     # Construire l'URL
     URL="${ENDPOINT}/${INT1}/${INT2}/${LIMIT}/${STR1}/${STR2}"
-
     # Envoyer la requête GET
     echo "Test $i: GET $URL"
-    RESPONSE=$(curl -s "$URL")
+    $(curl -s "$URL" > /dev/null)
 done
