@@ -52,8 +52,8 @@ task deploy:local
 ````
 
 ## Test
-#### Swagger & API [http(s)://localhost/](http(s)://localhost/)
-#### Grafana [http(s)://localhost:3000/](http(s)://localhost:3000/)
+#### Swagger & API [http(s)://localhost](http(s)://localhost)
+#### Grafana [http(s)://localhost:3000](http(s)://localhost:3000)
 #### Prometheus [http://localhost:9090/targets](http://localhost:9090/targets)
 
 
