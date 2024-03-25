@@ -37,8 +37,9 @@ func Wait(exiters ...Exiter) {
 	for {
 		select {
 		case err := <-PANIC:
-			logger.Panic(err)
-			exiter.Exit(1)
+			if logger.Panic(err) {
+				exiter.Exit(1)
+			}
 		case <-SIGS:
 			logger.Info("Received signal, shutting down...")
 			exiter.Exit(0)

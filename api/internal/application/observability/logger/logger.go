@@ -95,7 +95,7 @@ func (l *Logger) Write(level levels.TYPE, messages ...any) {
 func (l *Logger) Panic(err error) bool {
 	if err != nil {
 		l.Write(levels.PANIC, err, string(debug.Stack()))
-		os.Exit(1)
+		return true
 	}
 
 	return false
