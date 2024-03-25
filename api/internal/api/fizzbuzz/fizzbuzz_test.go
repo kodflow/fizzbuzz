@@ -28,7 +28,7 @@ func TestFizzBuzz(t *testing.T) {
 			name:         "Valid parameters",
 			url:          "/fizzbuzz/3/5/15/Fizz/Buzz",
 			expectedCode: fiber.StatusOK,
-			expectedBody: `{"result":["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]}`,
+			expectedBody: `["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]`,
 		},
 		{
 			name:         "Invalid int1",
