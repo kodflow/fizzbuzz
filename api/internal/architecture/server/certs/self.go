@@ -10,7 +10,7 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger"
+	"github.com/kodflow/fizzbuzz/api/internal/application/observability/logger"
 )
 
 // generateSelfSignedCert generates a self-signed certificate and returns a tls.Config.

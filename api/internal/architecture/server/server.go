@@ -7,8 +7,9 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/kodflow/fizzbuzz/api/internal/api"
+	"github.com/kodflow/fizzbuzz/api/internal/application/observability/logger"
+	"github.com/kodflow/fizzbuzz/api/internal/architecture/kernel"
 	"github.com/kodflow/fizzbuzz/api/internal/docs"
-	"github.com/kodflow/fizzbuzz/api/internal/kernel/observability/logger"
 )
 
 var methods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"}
@@ -96,11 +97,11 @@ func getOperationID(pathItem *docs.PathItem, method string) (string, bool) {
 }
 
 func (server *Server) http() {
+	kernel.PANIC <- server.app.Listen(":80")
 	logger.Info("Server started on port 80")
-	server.app.Listen(":80")
 }
 
 func (server *Server) https() {
+	kernel.PANIC <- server.app.ListenTLSWithCertificate(":443", server.certs.Certificates[0])
 	logger.Info("Server started on port 443")
-	server.app.ListenTLSWithCertificate(":443", server.certs.Certificates[0])
 }

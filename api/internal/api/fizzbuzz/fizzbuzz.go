@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/kodflow/fizzbuzz/api/internal/application/services"
+	"github.com/kodflow/fizzbuzz/api/internal/domain/services"
 )
 
 const start int = 1
@@ -25,7 +25,7 @@ const max int = 100
 // @Success      200    {object}     []string "A list of strings representing the FizzBuzz sequence"
 // @Failure      400    {object}     string   "Bad Request - invalid input parameters"
 // @Router       /fizzbuzz/:int1/:int2/:limit/:str1/:str2 [get]
-// @Id           fizzbuzz.FizzBuzz
+// @Id           metrics.Counter => fizzbuzz.FizzBuzz
 func FizzBuzz(c *fiber.Ctx) error {
 	var errors map[string]string = make(map[string]string)
 

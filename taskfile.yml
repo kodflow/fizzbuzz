@@ -11,6 +11,11 @@ tasks:
     desc: Lancer les tests Go avec gotestsum
     cmds:
       - gotestsum -f github-actions -- -v $(go list ./... | grep -vE "vendor") -coverprofile=coverage.out -covermode=atomic
+      
+  test:api:
+    desc: Benchmark l'api (ideal pour voir les metrics sur grafana)
+    cmds:
+      - tests/run.sh
 
   run:bin:
     deps: [build:bin]
@@ -41,7 +46,7 @@ tasks:
       - terraform init -upgrade
       - terraform apply -auto-approve
   
-  deploy:local:release:
+  deploy:release:
     dir: deploy/local
     desc: Déployer l'application en local avec la release sur github
     cmds:
