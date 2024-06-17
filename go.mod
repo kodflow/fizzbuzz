@@ -3,7 +3,7 @@ module github.com/kodflow/fizzbuzz
 go 1.22.1
 
 require (
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.8.1
 	github.com/swaggo/swag v1.16.3
 )
 
