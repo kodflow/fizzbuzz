@@ -3,7 +3,7 @@ module github.com/kodflow/fizzbuzz
 go 1.22.1
 
 require (
-	github.com/spf13/cobra v1.8.0
+	github.com/spf13/cobra v1.9.1
 	github.com/swaggo/swag v1.16.3
 )
 
@@ -44,7 +44,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.52.2
 	github.com/gofiber/swagger v1.0.0
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/spf13/pflag v1.0.6 // indirect
 	github.com/stretchr/testify v1.9.0
 	golang.org/x/crypto v0.21.0
 )
