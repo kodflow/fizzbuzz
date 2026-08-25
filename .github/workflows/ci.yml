@@ -50,11 +50,16 @@ jobs:
     needs: Tests
     runs-on: ubuntu-latest
     steps:
-      - name: Download project from Artifacts
-        uses: actions/download-artifact@v4
+      # A real checkout, not the Tests artifact: upload-artifact does not
+      # carry .git/, so ggshield used to abort with "Not a git directory"
+      # and the job died before SonarCloud ever ran — leaving the required
+      # "SonarCloud Code Analysis" status unreported and every PR blocked.
+      # fetch-depth: 0 because both tools want history (ggshield scans the
+      # commit range, Sonar needs blame data).
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          name: project
-          path: .
+          fetch-depth: 0
 
       - name: GitGuardian
         uses: GitGuardian/ggshield/actions/secret@v1.25.0
