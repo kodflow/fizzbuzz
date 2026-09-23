@@ -5,6 +5,10 @@ terraform {
       source = "kreuzwerker/docker"
       version = "3.0.2" 
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.6.3"
+    }
   }
 }
 
@@ -73,6 +77,19 @@ resource "docker_container" "prometheus_container" {
   }
 }
 
+# Generated per stack, never committed; read it with
+# `terraform output -raw grafana_admin_password`. Dashboards stay readable
+# without it through the anonymous Viewer role.
+resource "random_password" "grafana_admin" {
+  length  = 24
+  special = false
+}
+
+output "grafana_admin_password" {
+  value     = random_password.grafana_admin.result
+  sensitive = true
+}
+
 resource "docker_container" "grafana_container" {
   image = docker_image.grafana_image.image_id
   name  = "grafana"
@@ -82,8 +99,8 @@ resource "docker_container" "grafana_container" {
     "GF_AUTH_ANONYMOUS_ENABLED=true",
     "GF_AUTH_ANONYMOUS_ORG_NAME=Main Org.",
     "GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer",
-    "GF_SECURITY_ADMIN_USER=lbc",
-    "GF_SECURITY_ADMIN_PASSWORD=lbc",
+    "GF_SECURITY_ADMIN_USER=admin",
+    "GF_SECURITY_ADMIN_PASSWORD=${random_password.grafana_admin.result}",
     "GF_LOG_MODE=console",
     "GF_PATHS_PROVISIONING=/etc/grafana/provisioning",
     "GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/var/lib/grafana/dashboards/fizzbuzz.json"
@@ -93,9 +110,11 @@ resource "docker_container" "grafana_container" {
     name = docker_network.app_network.name
   }
 
+  # Loopback only: the admin login must not be reachable from the network.
   ports {
     internal = "3000"
     external = "3000"
+    ip       = "127.0.0.1"
   }
 
   volumes {
