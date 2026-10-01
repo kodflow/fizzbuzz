@@ -1,13 +1,5 @@
 # fizzbuzz [![Reference](https://pkg.go.dev/badge/github.com/kodflow/fizzbuzz.svg)](https://pkg.go.dev/github.com/kodflow/fizzbuzz) [![CI](https://img.shields.io/github/actions/workflow/status/kodflow/fizzbuzz/ci.yml?label=CI)](https://github.com/kodflow/fizzbuzz/actions/workflows/ci.yml) [![License](https://img.shields.io/github/license/kodflow/fizzbuzz?label=&cacheSeconds=1&color=blue)](https://github.com/kodflow/fizzbuzz/blob/main/LICENSE) [![Latest Stable Version](https://img.shields.io/github/v/tag/kodflow/fizzbuzz?label=&cacheSeconds=1&color=blue)](https://github.com/kodflow/fizzbuzz/releases/latest) [![Size](https://img.shields.io/docker/image-size/kodmain/fizzbuzz?label=&cacheSeconds=1&color=blue)](https://github.com/kodflow/fizzbuzz/pkgs/container/fizzbuzz)
 
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=coverage)](https://sonarcloud.io/project/activity?id=kodflow_fizzbuzz&graph=custom&custom_metrics=coverage)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=reliability_rating)](https://sonarcloud.io/project/issues?impactSoftwareQualities=RELIABILITY&resolved=false&id=kodflow_fizzbuzz)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=security_rating)](https://sonarcloud.io/project/issues?impactSoftwareQualities=SECURITY&resolved=false&id=kodflow_fizzbuzz)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=sqale_rating)](https://sonarcloud.io/project/issues?impactSoftwareQualities=MAINTAINABILITY&resolved=false&id=kodflow_fizzbuzz)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=code_smells)](https://sonarcloud.io/project/issues?resolved=false&types=CODE_SMELL&id=kodflow_fizzbuzz)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=bugs)](https://sonarcloud.io/project/issues?resolved=false&types=BUG&id=kodflow_fizzbuzz)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=kodflow_fizzbuzz&metric=vulnerabilities)](https://sonarcloud.io/project/issues?resolved=false&types=VULNERABILITY&id=kodflow_fizzbuzz)
-
 ## Assignment
 Write a simple fizz-buzz REST server.
 
