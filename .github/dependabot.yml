@@ -8,4 +8,7 @@ updates:
   - package-ecosystem: "gomod" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: weekly
+      day: monday
+      time: "04:00"
+      timezone: Europe/Paris
